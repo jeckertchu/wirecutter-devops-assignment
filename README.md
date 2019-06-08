@@ -67,7 +67,7 @@ Next we have the objective to "Only allow dave to have SSH access from the follo
 "
 
 This is done by creating secutity group ("MySecurityGroup") in the Resources, which we can assign a ingress policy via the SecurityGroupIngress spec (line 76).  The creation of the group, as seen in our inspection of the EC2 instance > Network Security Groups shows, meets our requirements - 
-
+[[https://github.com/jeckertchu/wirecutter-devops-assignment/blob/master/mysecuritygroup.jpg]]
 
 
  
