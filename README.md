@@ -26,7 +26,7 @@ Configure logrotate to rotate nginx access logs hourly (using cron)
 
 I was also given a keypair (private and public) for user dave as referenced above
 
-# Choosing a provisioning tool and some Prerequisites - 
+# Choosing a provisioning tool and some prerequisites - 
 
 This was easy, as I've never used any of the suggested tools in production before, only as a lab excercise while learning the basics of AWS.  For this reason I chose to use the most familiar to me - CloudFormation.  Additionally, since its the built in service for automated provisioning on AWS, it is provived free of charge for use (you only get charged for resources you deploy/use, etc.).
 
@@ -38,7 +38,7 @@ Adding external key pairs is covered in the AWS Documention here:
 https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws
 
 
-#Meeting the challenge
+# Meeting the challenge
 Let's take a look at how this template tries to acheive meeting the various requirements, and also where it falls short.
 First, how do we "Add a group called wirecutter
 Add a user dave to the wirecutter group" ?
@@ -69,7 +69,43 @@ Next we have the objective to "Only allow dave to have SSH access from the follo
 This is done by creating secutity group ("MySecurityGroup") in the Resources, which we can assign a ingress policy via the SecurityGroupIngress spec (line 76).  The creation of the group, as seen in our inspection of the EC2 instance > Network Security Groups shows, meets our requirements - 
 [[https://github.com/jeckertchu/wirecutter-devops-assignment/blob/master/mysecuritygroup.jpg]]
 
+In order to enforce this SG we had to declare a VPC for it to work in, or it would not be valid. To do this we refer back to our initial Parameters section of the template (lines 9-11): 
 
- 
+    
+           VpcId:
+            Description: Enter the VpcId
+            Type: AWS::EC2::VPC::Id
+
+Which is later referenced in the template's MySecurityGroup-> Properties section with "VpcId: !Ref VpcId".
+
+Next we have the section dealing with nginx and it's associated criteria
+"Install nginx and stand up a “Hello World” static HTML page at /hello
+Configure nginx to display content from http://example.com/ at /example
+Configure nginx to protect the content at /example with basic auth
+Username: admin
+Password: password"
+
+To automatically install nginx I went to the Metadata section of the instance, specifically invoking the AWS::CloudFormation::Init
+(line 32) which allows us to install the nginx package, the /hello directory and files in the doc root, and start the nginx service.
+This successfully worked and evidenced page being served as expected, however I could not figure out the rest of the config which would (theoretically speaking) mean customizing the /etc/nginx/sites-enabled/default of my server.  Given more time I might have simply edited my own and replaced it via the files install used earlier for my static page, though it I would also have to do this for other configuration and would just defeat the purpose of automated deployment processing.
+
+Likewise, password protecting the directory might have been acheived with something like
+  
+            sudo htpasswd -c /etc/nginx/.htpasswd admin
+         
+And again, would have required add'l config in the default of the nginx server to use .htpasswd, so something like
+...
+auth_basic "Restricted Content";
+auth_basic_user_file /etc/nginx/.htpasswd;
+
+(and possibly a restart of nginx)
+
+This brings us to the final task - "Configure logrotate to rotate nginx access logs hourly (using cron)"
+Logrotate is installed along with nginx via our AWS::CloudFormation::Init: 
+But the trick would be to somehow edit our cron tab file to contain - 
+
+0 * * * * /usr/sbin/logrotate /etc/logrotate.d/nginx.log
+
+Again, unsure how this can be acomplished without triggering some sort of bash script to install once instance is up (?).
 
 
