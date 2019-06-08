@@ -87,7 +87,10 @@ Password: password"
 
 To automatically install nginx I went to the Metadata section of the instance, specifically invoking the AWS::CloudFormation::Init
 (line 32) which allows us to install the nginx package, the /hello directory and files in the doc root, and start the nginx service.
-This successfully worked and evidenced page being served as expected, however I could not figure out the rest of the config which would (theoretically speaking) mean customizing the /etc/nginx/sites-enabled/default of my server.  Given more time I might have simply edited my own and replaced it via the files install used earlier for my static page, though it I would also have to do this for other configuration and would just defeat the purpose of automated deployment processing.
+This successfully worked and evidenced page being served as expected, as well as checking the Outputs tab in our Cloudformation.
+The template uses the "Website" key value to take the EC2 instance's public dns address/ name an put it onto the URL form via !Sub function (lines 98-101).
+
+However I could not figure out the rest of the config which would (theoretically speaking) mean customizing the /etc/nginx/sites-enabled/default of my server.  Given more time I might have simply edited my own and replaced it via the files install used earlier for my static page, though it I would also have to do this for other configuration and would just defeat the purpose of automated deployment processing.
 
 Likewise, password protecting the directory might have been acheived with something like
   
@@ -107,5 +110,29 @@ But the trick would be to somehow edit our cron tab file to contain -
 0 * * * * /usr/sbin/logrotate /etc/logrotate.d/nginx.log
 
 Again, unsure how this can be acomplished without triggering some sort of bash script to install once instance is up (?).
+
+# Outcomes and Conclusions
+
+Time to sum up what we've learned.
+It was an amazing process of unlocking the potentional of cloud automation provisioning in a "Infrastructure as Code" example.
+I created a template in YAML that can be re-used over and over depending on how I want my instance to meet certain use cases.
+Having never really deployed anything with Cloudformation before, I also learned just how much there is to the service itself, and how powerful it can be, requiring only basic understanding of AWS Services such as EC2, Security Groups, etc. to achieve reliable, repeatable and manageable results.
+
+What we achieved was the automated creation of a new EC2 instance running Amazon Linux, for security and low maintenance.
+The new instance met certain requirements set out at the beginning, for example we - 
+  - created a group called "wirecutter"
+  - created a user named 'dave' and put the user in the group we created.
+  - added a ssh key for dave from a imported pub/priv keypair
+  - installed packages for nginx and logrotate
+  - installed our static "hello world" page and the specific directory (/hello)
+  
+With a little more time and research the few remaining criteria of the assigment is within reach.
+
+Hope you enjoyed reading about this exercise as much as I enjoyed doing it.
+
+
+
+  
+  
 
 
