@@ -5,7 +5,7 @@ Parameters:
   KeyName:
     Description: Name of an existing EC2 KeyPair to enable SSH access into the server
     Type: AWS::EC2::KeyPair::KeyName
-    Default: "test-asg-key"
+    Default: "dave-key-pair"
   VpcId:
     Description: Enter the VpcId
     Type: AWS::EC2::VPC::Id
@@ -28,12 +28,13 @@ Resources:
   EC2Instance:
     Type: AWS::EC2::Instance
     Metadata: 
-      Comment: Install php and httpd and nginx
+      Comment: Install nginx, logrote, and put static files in
       AWS::CloudFormation::Init:
         config: 
           packages: 
             yum:
               nginx: []
+              logrotate: []
           files: 
             /usr/share/nginx/html/hello/index.html:
               content: !Sub |
