@@ -34,7 +34,6 @@ Resources:
           packages: 
             yum:
               nginx: []
-              logrotate: []
           files: 
             /usr/share/nginx/html/hello/index.html:
               content: !Sub |
@@ -67,6 +66,11 @@ Resources:
             # add user dave, create group wirecutter, and add dave to wirecutter group
             groupadd wirecutter
             useradd -d /home/dave -g wirecutter -m -s /bin/bash dave
+            # copy the ssh key into dave's /.ssh directory
+            cp -r ~ec2-user/.ssh/ ~dave/.ssh/
+            # change ownership on  ~dave/.ssh and all files in them.
+            chown -R dave ~dave/.ssh
+            chgrp -R wirecutter ~dave/.ssh
             # Install the files and packages from the metadata
             /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource EC2Instance  --region ${AWS::Region}
   MySecurityGroup:
