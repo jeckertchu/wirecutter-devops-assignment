@@ -129,8 +129,8 @@ It was an amazing process of unlocking the potentional of cloud automation provi
 I created a template in YAML that can be re-used over and over depending on how I want my instance to meet certain use cases.
 Having never really deployed anything with Cloudformation before, I also learned just how much there is to the service itself, and how powerful it can be, requiring only basic understanding of AWS Services such as EC2, Security Groups, etc. to achieve reliable, repeatable and manageable results.
 
-What we achieved was the automated creation of a new EC2 instance running Amazon Linux, for security and low maintenance.
-The new instance met certain requirements set out at the beginning, for example we - 
+What I achieved was the automated creation of a new EC2 instance running Amazon Linux, for security and low maintenance.
+The new instance met certain requirements set out at the beginning, for example: 
   - created a group called "wirecutter"
   - created a user named 'dave' and put the user in the group we created.
   - added a ssh key for dave from a imported pub/priv keypair
