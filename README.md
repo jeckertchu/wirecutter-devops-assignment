@@ -30,7 +30,11 @@ I was also given a keypair (private and public) for user dave as referenced abov
 
 This was easy, as I've never used any of the suggested tools in production before, only as a lab excercise while learning the basics of AWS.  For this reason I chose to use the most familiar to me - CloudFormation.  Additionally, since its the built in service for automated provisioning on AWS, it is provived free of charge for use (you only get charged for resources you deploy/use, etc.).
 
-Having made this decision, it was a matter of just diving in a breaking down the tasks, and making sure they'd be covered in the template. I'm learning all this on the fly, so I chose to use a template to work from that was already designed to deploy an EC2 instance based on an AMI of Amazon Linux, a distro also easiest to work with based on its support of the tools needed throughout the rest of this exercise. This template is based on the ones in the lessons found here:
+Having made this decision, it was a matter of just diving in a breaking down the tasks, and making sure they'd be covered in the template. I'm learning all this on the fly, so I chose to use a template to work from that was already designed to deploy an EC2 instance based on an AMI of Amazon Linux, a distro also easiest to work with based on its support of the tools needed throughout the rest of this exercise. 
+
+https://aws.amazon.com/amazon-linux-ami/
+
+For the excercise, I created a template is based on the ones in the lessons found here:
 https://github.com/ACloudGuru/intro-to-CloudFormation_AC
 
 Since I was given the private/public keypair (ssh key) for the user in our example, the prequisite to use it was to upload the public key into my AWS account (account from which one would launch cloudformation template), and have it ready. 
