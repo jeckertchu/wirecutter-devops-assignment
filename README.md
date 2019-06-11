@@ -64,7 +64,8 @@ The need to "Install the private SSH key below for the user dave" is done by upl
 
 Copying these into the newly created ~dave directory, and changing the user and group ownership is acheived simalarly with:
 
-/            # copy the ssh key into dave's /.ssh directory
+/            # copy the ssh key into dave's /.ssh directory:
+
             cp -r ~ec2-user/.ssh/ ~dave/.ssh/
             
             # change ownership on  ~dave/.ssh and all files in them.
