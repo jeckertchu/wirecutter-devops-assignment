@@ -71,9 +71,7 @@ Copying these into the newly created ~dave directory, and changing the user and 
             # change ownership on  ~dave/.ssh and all files in them.
             chown -R dave ~dave/.ssh
             chgrp -R wirecutter ~dave/.ssh
-            
-in the UserData secttion
-            
+                      
 
 
 Next we have the objective to "Only allow dave to have SSH access from the following IPV4 addresses
